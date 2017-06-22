@@ -20,10 +20,10 @@ showenv:
 	-python --version
 
 # Grids
-supergrid.nc: mercator_supergrid.nc ncap_supergrid.nc antarctic_spherical_supergrid.nc scap_supergrid.nc local
+supergrid.nc: mercator_supergrid.nc ncap_supergrid.nc antarctic_spherical_supergrid.nc local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python merge_grids.py
 
-mercator_supergrid.nc ncap_supergrid.nc antarctic_spherical_supergrid.nc scap_supergrid.nc: local
+mercator_supergrid.nc ncap_supergrid.nc antarctic_spherical_supergrid.nc: local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python create_grids.py
 
 # Sets char tile='tile1'
@@ -45,7 +45,7 @@ local: MIDAS
 %.cdl: %.nc
 	ncdump $< | egrep -v 'code_version|history' > $@
 
-md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.nc ncap_supergrid.nc scap_supergrid.nc supergrid.nc
+md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.nc ncap_supergrid.nc supergrid.nc
 	echo Grids > $@
 	md5sum *supergrid.nc ocean_hgrid.nc >> $@
 
